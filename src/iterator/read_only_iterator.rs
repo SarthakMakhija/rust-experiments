@@ -1,3 +1,7 @@
+/*
+ ReadonlyIterator has a lifetime that is tied to the lifetime the slice.
+ ReadonlyIterator does not outlive the the slice.
+*/
 pub(crate) struct ReadonlyIterator<'iterator, T> {
     slice: &'iterator [T],
 }
@@ -9,8 +13,18 @@ impl<'iterator, T> ReadonlyIterator<'iterator, T> {
 }
 
 impl<'iterator, T> Iterator for ReadonlyIterator<'iterator, T> {
+    /*
+        Iterator will return the Item that is a reference to T which has the lifetime of ReadonlyIterator struct.
+    */
     type Item = &'iterator T;
 
+    /**
+        &mut self has an anonyous lifetime. This means `self` is borrowed mutably for a lifetime that is as long as that of the next method.
+        If `self` is is borrowed mutably for a lifetime that is as long as that of the next method, then how does this method return an Option
+        with a reference to T with the lifetime that is as long as the ReadonlyIterator struct.
+
+        It looks like rust is extending the lifetime of the readonly reference because slice is `&'iterator [T]`.
+    */
     fn next(&mut self) -> Option<Self::Item> {
         if self.slice.is_empty() {
             return None;

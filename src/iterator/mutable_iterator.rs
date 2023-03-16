@@ -1,3 +1,7 @@
+/*
+ MutableIterator has a lifetime that is tied to the lifetime the slice.
+ MutableIterator does not outlive the the slice.
+*/
 pub(crate) struct MutableIterator<'iterator, T> {
     slice: &'iterator mut [T],
 }
@@ -9,8 +13,20 @@ impl<'iterator, T> MutableIterator<'iterator, T> {
 }
 
 impl<'iterator, T> Iterator for MutableIterator<'iterator, T> {
+    /*
+        Iterator will return the Item that is a reference to T which has the lifetime of MutableIterator struct.
+    */
     type Item = &'iterator mut T;
 
+    /**
+        &mut self has a lifetime indicated by `next`. This means `self` is borrowed mutably for a lifetime that is as long as that of the next method.
+        If `self` is is borrowed mutably for a lifetime that is as long as that of the next method, then how does this method return an Option
+        with a reference to T with the lifetime that is as long as the MutableIterator struct.
+
+        Rust is not extending the lifetime of the mutable reference because slice is `&'iterator mut [T]`.
+        In order to deal with this, the code performs `std::mem::replace(slice, &mut []);` and gets the original slice that has the `iterator` lifetime.
+        We work with `original_slice`, get the item and then replace the slice.
+    */
     fn next<'next>(&'next mut self) -> Option<Self::Item> {
         let slice = &mut self.slice;
         let original_slice = std::mem::replace(slice, &mut []);
