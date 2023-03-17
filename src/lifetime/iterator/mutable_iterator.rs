@@ -40,7 +40,7 @@ impl<'iterator, T> Iterator for MutableIterator<'iterator, T> {
 
 #[cfg(test)]
 mod tests {
-    use crate::iterator::mutable_iterator::MutableIterator;
+    use crate::lifetime::iterator::mutable_iterator::MutableIterator;
 
     #[test]
     fn iterate_over_a_slice_of_n_elements() {
