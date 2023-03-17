@@ -498,7 +498,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-lifetimes"
+name = "rust-experiments"
 version = "0.1.0"
 dependencies = [
  "criterion",
