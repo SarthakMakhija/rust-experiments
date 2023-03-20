@@ -1,5 +1,5 @@
 use criterion::{Criterion, criterion_group, criterion_main};
-use rust_lifetimes::serde::constant_size_struct::Node;
+use rust_experiments::serde::constant_size_struct::Node;
 
 fn serialize_fixed_size(criterion: &mut Criterion) {
     let mut group = criterion.benchmark_group("serialize_fixed_size");
@@ -21,6 +21,8 @@ fn serialize_fixed_size(criterion: &mut Criterion) {
                 let _ = node.custom_serialize();
             } )
         });
+
+    group.finish();
 }
 
 criterion_group!(benches, serialize_fixed_size);
