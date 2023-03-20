@@ -29,18 +29,18 @@ impl Node {
         };
     }
 
-    /**
+    /*
         Preallocate the number of bytes that is equal to the size of the node.
         Takes around 160 ns to serialize on: MacBook Pro (16-inch, 2019), 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
-    **/
+    */
     pub fn serialize(&self) -> AlignedVec {
         return rkyv::to_bytes::<_, NODE_SIZE>(self).unwrap();
     }
 
-    /**
+    /*
         Use AllocSerializer
         Takes around 90 ns to serialize on: MacBook Pro (16-inch, 2019), 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
-    **/
+    */
     pub fn custom_serialize(&self) -> AlignedVec {
         let mut serializer = AllocSerializer::<0>::default();
         serializer.serialize_value(self).unwrap();
