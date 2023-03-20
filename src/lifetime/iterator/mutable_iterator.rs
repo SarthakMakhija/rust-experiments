@@ -28,8 +28,7 @@ impl<'iterator, T> Iterator for MutableIterator<'iterator, T> {
         We work with `original_slice`, get the item and then replace the slice.
     */
     fn next<'next>(&'next mut self) -> Option<Self::Item> {
-        let slice = &mut self.slice;
-        let original_slice = std::mem::replace(slice, &mut []);
+        let original_slice: &'iterator mut [T] = std::mem::replace(&mut self.slice, &mut []);
 
         let (head, tail) = original_slice.split_first_mut()?;
         self.slice = tail;
