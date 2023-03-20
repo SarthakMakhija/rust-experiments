@@ -19,7 +19,7 @@ impl<'iterator, T> Iterator for ReadonlyIterator<'iterator, T> {
     type Item = &'iterator T;
 
     /**
-        &mut self has an anonyous lifetime. This means `self` is borrowed mutably for a lifetime that is as long as that of the next method.
+        &mut self has an anonymous lifetime. This means `self` is borrowed mutably for a lifetime that is as long as that of the next method.
         If `self` is is borrowed mutably for a lifetime that is as long as that of the next method, then how does this method return an Option
         with a reference to T with the lifetime that is as long as the ReadonlyIterator struct.
 
